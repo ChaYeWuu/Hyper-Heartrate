@@ -5,6 +5,7 @@
 ## 功能特性
 
 - **实时心率显示**：通过 BLE 连接小米穿戴设备，实时读取心率数据并在游戏 HUD 中显示
+- **iPhone 心率广播支持**：支持 iPhone「心率广播」App 通过 BLE 广播的 Apple Watch 心率数据
 - **模块化 HUD**：支持模块化模式，可独立调整心率图标、心率数值、设备名称的位置
 - **字体大小调节**：心率文字、设备名称、GUI 面板、心率图标均可独立调节大小
 - **心跳模式**：根据实时心率自动变色（蓝→绿→黄→红），并支持子菜单独立控制图标/心率/BPM 各自是否变色
@@ -17,6 +18,7 @@
 - [.NET 10](https://dotnet.microsoft.com/download)（BLE 功能依赖）
 - Windows 系统（BLE 通过 WinRT 实现）
 - 小米设备需在设置中开启「心率广播」
+- iPhone 设备需安装「心率广播」App，连接后则无需保持前台运行
 
 ### Minecraft 版本与对应构建
 
@@ -137,6 +139,15 @@ cd fabric-1.21.1-1.21.5 && ./gradlew clean build
 | `fabric-1.21.1-1.21.5/` | `xiaomi-heartrate-1.1.0_fabric-1.21.1-1.21.5.jar` |
 
 ## 更新日志
+
+### Apple 分支
+
+- 新增对 iPhone「心率广播」App 的适配，支持通过 BLE 接收 Apple Watch 心率数据
+- 新增 `IPHONE_HEART_RATE_APP` 设备类型，自动识别 `xinlvguangbo-iphone` 广播名称
+- ble-tool 增加 GAP 名称查询：无广播名称的设备可通过短暂连接获取设备名（无需配对）
+- ble-tool 改为发现即输出 + `UPDATE_NAME` 异步更新，设备列表实时刷新
+- 新增 `ClientLifecycleEvents.CLIENT_STOPPING` 事件处理，关闭游戏时主动清理 BLE 线程与进程
+- 修复 ble-tool 在 .NET 10 SDK 下的编译兼容问题
 
 ### v1.1.0
 
