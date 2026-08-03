@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.chayewuu.xiaomiheartrate"
-version = "1.1.0_26.1"
+version = "1.1.0_fabric-26.1"
 
 base {
     archivesName.set("xiaomi-heartrate")
