@@ -89,7 +89,7 @@ xiaomiheartrate/
 
 ```bash
 cd fabric-26.2
-./gradlew build
+./gradlew.bat clean build
 ```
 
 构建产物：`fabric-26.2/build/libs/xiaomi-heartrate-1.0.0.jar`
