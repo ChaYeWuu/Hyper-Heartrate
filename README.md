@@ -18,14 +18,14 @@
 - Fabric Loader 0.19.3+
 - Fabric API 0.152.0+
 - Java 25
-- .NET 10 运行时（BLE 功能依赖）
+- .NET 10（BLE 功能依赖）
 - Windows 系统（BLE 通过 WinRT 实现）
 - 小米设备需在设置中开启「心率广播」
 
 ## 安装
 
 1. 将 `xiaomi-heartrate-1.0.0.jar` 放入 `.minecraft/mods/` 目录
-2. 安装 [.NET 10 运行时](https://dotnet.microsoft.com/download)
+2. 安装 [.NET 10](https://dotnet.microsoft.com/download)
 3. 启动游戏，Mod 会自动提取 BLE 工具文件到 `.minecraft/config/heartrate/`
 4. 按 `H` 键打开主界面，点击「连接设备」扫描并连接
 
@@ -85,7 +85,7 @@ xiaomiheartrate/
 └── .trae/                # TRAE 项目配置
 ```
 
-## 开发
+## 构建
 
 ```bash
 cd fabric-26.2
