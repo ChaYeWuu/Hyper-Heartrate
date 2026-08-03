@@ -130,8 +130,8 @@ cd fabric-1.21.1-1.21.5 && ./gradlew clean build
 
 | 目录 | 产物名 |
 |------|--------|
-| `fabric-26.2/` | `xiaomi-heartrate-1.1.0_26.2.jar` |
-| `fabric-26.1/` | `xiaomi-heartrate-1.1.0_26.1.jar` |
+| `fabric-26.2/` | `xiaomi-heartrate-1.1.0_fabric-26.2.jar` |
+| `fabric-26.1/` | `xiaomi-heartrate-1.1.0_fabric-26.1.jar` |
 | `fabric-1.21.11/` | `xiaomi-heartrate-1.1.0_fabric-1.21.11.jar` |
 | `fabric-1.21.6-1.21.10/` | `xiaomi-heartrate-1.1.0_fabric-1.21.6-1.21.10.jar` |
 | `fabric-1.21.1-1.21.5/` | `xiaomi-heartrate-1.1.0_fabric-1.21.1-1.21.5.jar` |
