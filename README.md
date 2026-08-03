@@ -14,17 +14,31 @@
 
 ## 环境要求
 
-- Minecraft 26.2
-- Fabric Loader 0.19.3+
-- Fabric API 0.152.0+
-- Java 25
 - .NET 10 运行时（BLE 功能依赖）
 - Windows 系统（BLE 通过 WinRT 实现）
 - 小米设备需在设置中开启「心率广播」
 
+### Minecraft 版本与对应构建
+
+| 目录 | Minecraft 版本 | Fabric Loader | Fabric API | Java | Loom |
+|------|---------------|---------------|-----------|------|------|
+| `fabric-26.2/` | 26.2.x | 0.19.3+ | 0.152.0+ | 25 | 1.17 (非混淆) |
+| `fabric-26.1/` | 26.1.x | 0.19.2+ | 0.150.0+ | 25 | 1.15 (非混淆) |
+| `fabric-1.21.11/` | 1.21.11+ | 0.18.5+ | 0.141.4+ | 21 | 1.14 (Yarn remap) |
+| `fabric-1.21.6-1.21.10/` | 1.21.6–1.21.10 | 0.18.5+ | 0.128.2+ | 21 | 1.14 (Yarn remap) |
+| `fabric-1.21.1-1.21.5/` | 1.21.1–1.21.5 | 0.16.14+ | 0.119.2+ | 21 | 1.14 (Yarn remap) |
+
+> 各子项目源码逻辑一致，仅因 Minecraft/Fabric API 差异分别适配。请根据游戏版本选择对应目录构建。
+
+#### 版本差异说明
+
+- **1.21.1–1.21.5**：`KeyBinding` 构造使用 `KeyBinding.Category` record 之前的旧签名；`Screen.renderBackground` 会应用原版模糊，已通过 `BaseModScreen` 重写为空操作规避
+- **1.21.6–1.21.10**：`KeyBinding` 构造使用 String category（`KeyBinding.Category` record 在 1.21.11 才引入）；鼠标事件使用旧签名 `mouseClicked(double, double, int)`
+- **1.21.11+**：`KeyBinding` 构造使用 `KeyBinding.Category` record；鼠标事件使用新签名 `mouseClicked(Click, boolean)`
+
 ## 安装
 
-1. 将 `xiaomi-heartrate-1.0.0.jar` 放入 `.minecraft/mods/` 目录
+1. 将对应版本的 `xiaomi-heartrate-1.1.0_fabric-*.jar` 放入 `.minecraft/mods/` 目录
 2. 安装 [.NET 10 运行时](https://dotnet.microsoft.com/download)
 3. 启动游戏，Mod 会自动提取 BLE 工具文件到 `.minecraft/config/heartrate/`
 4. 按 `H` 键打开主界面，点击「连接设备」扫描并连接
@@ -73,26 +87,64 @@
 
 ```
 xiaomiheartrate/
-├── fabric-26.2/          # Fabric Mod 主项目
+├── fabric-26.2/                # Minecraft 26.2.x（Mojang 非混淆映射）
+├── fabric-26.1/                # Minecraft 26.1.x（Mojang 非混淆映射）
+├── fabric-1.21.11/             # Minecraft 1.21.11+（Yarn 映射）
+├── fabric-1.21.6-1.21.10/      # Minecraft 1.21.6–1.21.10（Yarn 映射）
+├── fabric-1.21.1-1.21.5/       # Minecraft 1.21.1–1.21.5（Yarn 映射）
 │   └── src/main/java/com/chayewuu/xiaomiheartrate/
-│       ├── config/       # 配置管理
-│       ├── device/       # BLE 设备管理
-│       ├── gui/          # GUI 界面
-│       ├── heart/        # 心率数据管理
-│       ├── network/      # HTTP API
-│       └── util/         # 工具类
-├── tools/                # ble-tool (.NET BLE 工具)
-└── .trae/                # TRAE 项目配置
+│       ├── config/             # 配置管理
+│       ├── device/             # BLE 设备管理
+│       ├── gui/                # GUI 界面
+│       ├── heart/              # 心率数据管理
+│       ├── network/            # HTTP API
+│       └── util/               # 工具类
+├── tools/                      # ble-tool (.NET BLE 工具)
+└── .trae/                      # TRAE 项目配置
 ```
 
 ## 开发
 
+根据目标 Minecraft 版本进入对应目录构建：
+
 ```bash
-cd fabric-26.2
-./gradlew build
+# Minecraft 26.2.x
+cd fabric-26.2 && ./gradlew clean build
+
+# Minecraft 26.1.x
+cd fabric-26.1 && ./gradlew clean build
+
+# Minecraft 1.21.11+
+cd fabric-1.21.11 && ./gradlew clean build
+
+# Minecraft 1.21.6–1.21.10
+cd fabric-1.21.6-1.21.10 && ./gradlew clean build
+
+# Minecraft 1.21.1–1.21.5
+cd fabric-1.21.1-1.21.5 && ./gradlew clean build
 ```
 
-构建产物：`fabric-26.2/build/libs/xiaomi-heartrate-1.0.0.jar`
+> ⚠️ 必须使用 `clean build` 而非 `build`。Loom remap 任务存在增量编译缓存问题，直接 `build` 会因残留的旧产物导致编译失败或产物不更新。
+
+构建产物位于 `<对应目录>/build/libs/`，命名格式为 `xiaomi-heartrate-1.1.0_fabric-<版本范围>.jar`：
+
+| 目录 | 产物名 |
+|------|--------|
+| `fabric-26.2/` | `xiaomi-heartrate-1.1.0_26.2.jar` |
+| `fabric-26.1/` | `xiaomi-heartrate-1.1.0_26.1.jar` |
+| `fabric-1.21.11/` | `xiaomi-heartrate-1.1.0_fabric-1.21.11.jar` |
+| `fabric-1.21.6-1.21.10/` | `xiaomi-heartrate-1.1.0_fabric-1.21.6-1.21.10.jar` |
+| `fabric-1.21.1-1.21.5/` | `xiaomi-heartrate-1.1.0_fabric-1.21.1-1.21.5.jar` |
+
+## 更新日志
+
+### v1.1.0
+
+- 新增对 Minecraft 1.21 全系（1.21.1–1.21.11+）的适配
+- 新增对 Minecraft 26.1 全系的适配
+- 修复 1.21.4–1.21.5 的 GUI 背景模糊问题（`BaseModScreen` 重写 `renderBackground`）
+- 修复 1.21.6–1.21.10 启动失败问题（`PositionAdjustScreen` 鼠标事件签名适配）
+- 规范项目目录命名与构建产物命名
 
 ## 协议
 

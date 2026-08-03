@@ -27,6 +27,9 @@ build/
 # ===== Minecraft / Fabric =====
 run/
 *.log
+fabric-*/.gradle/
+fabric-*/build/
+fabric-*/run/
 
 # ===== 构建产物 =====
 *.jar
