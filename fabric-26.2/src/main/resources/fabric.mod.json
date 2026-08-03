@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "xiaomi-heartrate",
+  "version": "${version}",
+  "name": "Xiaomi Heartrate",
+  "description": "读取小米手环/手表/Redmi Watch 实时心率并显示到 Minecraft 游戏内",
+  "authors": [
+    "茶叶Wuu"
+  ],
+  "contact": {
+    "homepage": "https://github.com/xiaomiheartrate",
+    "sources": "https://github.com/xiaomiheartrate"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "com.chayewuu.xiaomiheartrate.HeartRateMod"
+    ],
+    "client": [
+      "com.chayewuu.xiaomiheartrate.HeartRateModClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

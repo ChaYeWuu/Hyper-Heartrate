@@ -1,0 +1,46 @@
+# ===== IDE =====
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+# VS Code
+.vscode/
+.trae/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Gradle =====
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ===== Minecraft / Fabric =====
+run/
+*.log
+
+# ===== 构建产物 =====
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# ===== .NET ble-tool 构建产物（仅保留源码 Program.cs / BleTool.csproj） =====
+tools/ble-tool/obj/
+tools/ble-tool/publish/
+tools/ble-tool/fdd-publish/
+tools/ble-tool/**/*.dll
+tools/ble-tool/**/*.exe
+tools/ble-tool/**/*.pdb
+tools/ble-tool/**/*.cache
+
+# ===== 临时调试输出 =====
+conn-*.txt
+restore-*.txt
