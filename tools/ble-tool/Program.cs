@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Concurrent;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
-using Windows.Devices.Enumeration;
 
 namespace XiaomiHeartrate.BleTool;
 
@@ -59,8 +60,7 @@ internal static class Program
 
     /// <summary>
     /// 扫描 BLE 广播设备。
-    /// <para>使用 BluetoothLEAdvertisementWatcher 以 Active 模式扫描，</para>
-    /// <para>每发现一个设备输出一行：MAC|Name|RSSI</para>
+    /// <para>发现即输出，名称查询在后台并行进行，查到后发 UPDATE_NAME。</para>
     /// </summary>
     private static async Task<int> RunScan(string[] args)
     {
@@ -73,14 +73,42 @@ internal static class Program
 
         var seen = new System.Collections.Generic.HashSet<ulong>();
         var tcs = new TaskCompletionSource<bool>();
+        var lookupTasks = new ConcurrentDictionary<string, Task>();
+        var cts = new CancellationTokenSource();
 
         watcher.Received += (_, args) =>
         {
             if (seen.Add(args.BluetoothAddress))
             {
                 string mac = FormatMac(args.BluetoothAddress);
-                string name = string.IsNullOrEmpty(args.Advertisement.LocalName) ? "" : args.Advertisement.LocalName;
-                Console.WriteLine($"{mac}|{name}|{args.RawSignalStrengthInDBm}");
+                string adName = string.IsNullOrEmpty(args.Advertisement.LocalName)
+                    ? "" : args.Advertisement.LocalName;
+                var serviceUuids = string.Join(",", args.Advertisement.ServiceUuids
+                    .Select(u => u.ToString("N").ToLowerInvariant()[..4]));
+                int rssi = args.RawSignalStrengthInDBm;
+
+                // 立即输出
+                Console.WriteLine($"{mac}|{adName}|{rssi}|{serviceUuids}");
+
+                // 若无广告名，后台查 GAP 名称
+                if (string.IsNullOrEmpty(adName))
+                {
+                    lookupTasks.TryAdd(mac, Task.Run(async () =>
+                    {
+                        try
+                        {
+                            using var device = await BluetoothLEDevice
+                                .FromBluetoothAddressAsync(args.BluetoothAddress)
+                                .AsTask().WaitAsync(TimeSpan.FromSeconds(3), cts.Token);
+                            if (device != null && !string.IsNullOrEmpty(device.Name))
+                            {
+                                Console.Error.WriteLine($"NAME_FOUND|{mac}|{device.Name}");
+                                Console.WriteLine($"UPDATE_NAME|{mac}|{device.Name}");
+                            }
+                        }
+                        catch { /* 超时或失败，静默忽略 */ }
+                    }, cts.Token));
+                }
             }
         };
 
@@ -89,13 +117,25 @@ internal static class Program
         Console.Error.WriteLine("SCAN_START");
         watcher.Start();
 
-        // 等待指定时间
         await Task.Delay(durationSeconds * 1000);
 
         watcher.Stop();
         await tcs.Task;
-        Console.Error.WriteLine("SCAN_END");
 
+        // 等待后台名称查询完成（最多 5 秒）
+        if (!lookupTasks.IsEmpty)
+        {
+            Console.Error.WriteLine($"NAME_LOOKUP_WAIT|{lookupTasks.Count}");
+            try
+            {
+                await Task.WhenAll(lookupTasks.Values)
+                    .WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch { /* 超时 */ }
+        }
+        cts.Cancel(); // 清理未完成的查询
+
+        Console.Error.WriteLine($"SCAN_END|{seen.Count}");
         return 0;
     }
 

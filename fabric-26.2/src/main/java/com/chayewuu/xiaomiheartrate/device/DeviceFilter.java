@@ -39,6 +39,12 @@ public final class DeviceFilter {
             "miwatch"
     };
 
+    /** iPhone 心率广播 App 名称前缀（小写） */
+    private static final String[] IPHONE_HEART_RATE_PREFIXES = {
+            "xinlvguangbo",
+            "xinlvguangbo-iphone"
+    };
+
     /** Redmi 设备名称前缀（小写） */
     private static final String[] REDMI_PREFIXES = {
             "redmi watch",
@@ -94,6 +100,13 @@ public final class DeviceFilter {
             return DeviceType.UNKNOWN;
         }
         String lower = name.toLowerCase(Locale.ROOT);
+
+        // iPhone 心率广播 App 匹配（在小米匹配之前检查）
+        for (String prefix : IPHONE_HEART_RATE_PREFIXES) {
+            if (lower.startsWith(prefix) || lower.contains(prefix)) {
+                return DeviceType.IPHONE_HEART_RATE_APP;
+            }
+        }
 
         // 优先匹配更具体的前缀（"mi smart band" 优先于 "mi band"）
         for (String prefix : XIAOMI_BAND_PREFIXES) {
