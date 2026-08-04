@@ -1,6 +1,6 @@
 # Xiaomi Heartrate
 
-一个 Minecraft Fabric Mod，用于读取米系穿戴设备的实时心率并显示到游戏内 HUD。
+一个 Minecraft Fabric Mod，用于读取标准GATT设备的实时心率并显示到游戏内 HUD。
 
 ## 功能特性
 
@@ -16,7 +16,7 @@
 
 - [.NET 10](https://dotnet.microsoft.com/download)（BLE 功能依赖）
 - Windows 系统（BLE 通过 WinRT 实现）
-- 小米设备需在设置中开启「心率广播」
+- 标准GATT设备需在设置中开启「心率广播」
 
 ### Minecraft 版本与对应构建
 
