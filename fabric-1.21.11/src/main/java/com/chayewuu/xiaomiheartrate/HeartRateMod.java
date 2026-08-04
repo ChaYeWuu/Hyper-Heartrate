@@ -33,7 +33,7 @@ public class HeartRateMod implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("HeartRateMod");
 
     /** Mod 版本号 */
-    public static final String MOD_VERSION = "1.1.0";
+    public static final String MOD_VERSION = "1.2.0";
 
     /** 关闭钩子是否已注册（避免重复注册） */
     private static volatile boolean shutdownHookRegistered = false;

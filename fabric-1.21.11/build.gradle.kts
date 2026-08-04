@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.chayewuu.xiaomiheartrate"
-version = "1.1.0_fabric-1.21.11"
+version = "1.2.0_fabric-1.21.11"
 
 base {
     archivesName.set("xiaomi-heartrate")

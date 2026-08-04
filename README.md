@@ -38,7 +38,7 @@
 
 ## 安装
 
-1. 将对应版本的 `xiaomi-heartrate-1.1.0_fabric-*.jar` 放入 `.minecraft/mods/` 目录
+1. 将对应版本的 `xiaomi-heartrate-1.2.0_fabric-*.jar` 放入 `.minecraft/mods/` 目录
 2. 安装 [.NET 10](https://dotnet.microsoft.com/download)
 3. 启动游戏，Mod 会自动提取 BLE 工具文件到 `.minecraft/config/heartrate/`
 4. 按 `H` 键打开主界面，点击「连接设备」扫描并连接
@@ -126,17 +126,22 @@ cd fabric-1.21.1-1.21.5 && ./gradlew clean build
 
 > ⚠️ 必须使用 `clean build` 而非 `build`。Loom remap 任务存在增量编译缓存问题，直接 `build` 会因残留的旧产物导致编译失败或产物不更新。
 
-构建产物位于 `<对应目录>/build/libs/`，命名格式为 `xiaomi-heartrate-1.1.0_fabric-<版本范围>.jar`：
+构建产物位于 `<对应目录>/build/libs/`，命名格式为 `xiaomi-heartrate-1.2.0_fabric-<版本范围>.jar`：
 
 | 目录 | 产物名 |
 |------|--------|
-| `fabric-26.2/` | `xiaomi-heartrate-1.1.0_fabric-26.2.jar` |
-| `fabric-26.1/` | `xiaomi-heartrate-1.1.0_fabric-26.1.jar` |
-| `fabric-1.21.11/` | `xiaomi-heartrate-1.1.0_fabric-1.21.11.jar` |
-| `fabric-1.21.6-1.21.10/` | `xiaomi-heartrate-1.1.0_fabric-1.21.6-1.21.10.jar` |
-| `fabric-1.21.1-1.21.5/` | `xiaomi-heartrate-1.1.0_fabric-1.21.1-1.21.5.jar` |
+| `fabric-26.2/` | `xiaomi-heartrate-1.2.0_fabric-26.2.jar` |
+| `fabric-26.1/` | `xiaomi-heartrate-1.2.0_fabric-26.1.jar` |
+| `fabric-1.21.11/` | `xiaomi-heartrate-1.2.0_fabric-1.21.11.jar` |
+| `fabric-1.21.6-1.21.10/` | `xiaomi-heartrate-1.2.0_fabric-1.21.6-1.21.10.jar` |
+| `fabric-1.21.1-1.21.5/` | `xiaomi-heartrate-1.2.0_fabric-1.21.1-1.21.5.jar` |
 
 ## 更新日志
+
+### v1.2.0
+- 新增 支持所有标准 GATT的设备（华为/苹果/三星/佳明等）
+- 优化 非米系设备统一显示为「[通用心率广播设备]」
+- 优化 模组稳定性,提高模组流畅度
 
 ### v1.1.0
 - 新增 适配 Minecraft 1.21-26.2 所有版本
