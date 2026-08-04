@@ -3,11 +3,9 @@ package com.chayewuu.xiaomiheartrate.device;
 import java.util.Locale;
 
 /**
- * 设备过滤规则工具类。
+ * 设备类型识别工具类。
  * <p>
- * 根据设备名称前缀/包含匹配，识别小米 / Redmi 系列手环与手表，
- * 并推断对应的 {@link DeviceType}。用于在扫描阶段过滤出受支持的设备，
- * 仅将匹配的设备通过 {@link ScanCallback} 上报给上层。
+ * 所有支持心率广播的设备均会被上报，非小米/Redmi 设备统一归类为 STANDARD_GATT（通用心率广播设备），通过标准 GATT 0x2A37 心率服务解析。
  * </p>
  *
  * <p>该类为工具类，禁止实例化。</p>
@@ -19,7 +17,7 @@ import java.util.Locale;
  *     <li>{@code "Mi Watch"} / {@code "Xiaomi Watch"} → {@link DeviceType#XIAOMI_WATCH}；</li>
  *     <li>{@code "Redmi Watch"} → {@link DeviceType#REDMI_WATCH}；</li>
  *     <li>{@code "Redmi Band"} → 归类为 {@link DeviceType#REDMI_WATCH}（与手表共用解析路径）；</li>
- *     <li>其余返回 {@link DeviceType#UNKNOWN}。</li>
+ *     <li>其余统一归类为 STANDARD_GATT（通用心率广播设备）。</li>
  * </ul>
  */
 public final class DeviceFilter {
@@ -60,26 +58,26 @@ public final class DeviceFilter {
     }
 
     /**
-     * 判断设备是否为受支持的小米/Redmi 设备。
+     * 判断设备是否为支持心率广播的设备。
+     * <p>当前所有非 null 设备均视为受支持（非小米/Redmi 设备归类为 STANDARD_GATT）。</p>
      *
      * @param device 待判定设备
-     * @return {@code true} 表示该设备受支持
+     * @return {@code true} 表示该设备受支持（非 null 即返回 true）
      */
     public static boolean isSupportedDevice(BleDevice device) {
-        if (device == null) {
-            return false;
-        }
-        return isSupportedDevice(device.getName());
+        if (device == null) return false;
+        return true;
     }
 
     /**
      * 判断设备名称是否匹配受支持的设备。
+     * <p>当前所有名称均视为受支持（非小米/Redmi 设备归类为 STANDARD_GATT）。</p>
      *
      * @param name 设备名称
-     * @return {@code true} 表示名称匹配小米/Redmi 设备
+     * @return 始终返回 {@code true}
      */
     public static boolean isSupportedDevice(String name) {
-        return getDeviceType(name) != DeviceType.UNKNOWN;
+        return true;
     }
 
     /**
@@ -87,11 +85,11 @@ public final class DeviceFilter {
      * <p>匹配方式为大小写不敏感的前缀匹配。</p>
      *
      * @param name 设备名称
-     * @return 设备类型；无法识别时返回 {@link DeviceType#UNKNOWN}
+     * @return 设备类型；无法识别时统一归类为 {@link DeviceType#STANDARD_GATT}
      */
     public static DeviceType getDeviceType(String name) {
         if (name == null || name.isBlank()) {
-            return DeviceType.UNKNOWN;
+            return DeviceType.STANDARD_GATT;
         }
         String lower = name.toLowerCase(Locale.ROOT);
 
@@ -119,6 +117,6 @@ public final class DeviceFilter {
                 return DeviceType.XIAOMI_WATCH;
             }
         }
-        return DeviceType.UNKNOWN;
+        return DeviceType.STANDARD_GATT;
     }
 }

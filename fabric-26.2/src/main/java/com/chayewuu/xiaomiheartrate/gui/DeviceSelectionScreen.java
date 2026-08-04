@@ -175,8 +175,7 @@ public class DeviceSelectionScreen extends Screen {
             case XIAOMI_BAND -> "[小米手环]";
             case XIAOMI_WATCH -> "[小米手表]";
             case REDMI_WATCH -> "[红米手表]";
-            case STANDARD_GATT -> "[标准GATT]";
-            default -> "[未知]";
+            default -> "[通用心率广播设备]";
         };
     }
 

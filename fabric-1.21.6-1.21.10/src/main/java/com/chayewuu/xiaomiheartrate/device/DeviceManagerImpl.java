@@ -255,13 +255,9 @@ public class DeviceManagerImpl implements DeviceManager {
         connectionState = ConnectionState.SCANNING;
         ModLogger.info("{} 启动设备扫描", LOG_TAG);
 
-        // 包装回调：仅上报受支持且未重复的设备
+        // 包装回调：去重后上报所有支持心率广播的设备
         ScanCallback filteredCallback = device -> {
             if (device == null) {
-                return;
-            }
-            if (!DeviceFilter.isSupportedDevice(device)) {
-                ModLogger.debug("{} 过滤掉非受支持设备: {}", LOG_TAG, device.getName());
                 return;
             }
             String address = device.getAddress();
@@ -269,7 +265,7 @@ public class DeviceManagerImpl implements DeviceManager {
                 // 已上报过的设备，跳过（避免重复刷新列表）
                 return;
             }
-            ModLogger.info("{} 发现受支持设备: {} ({})", LOG_TAG, device.getName(), address);
+            ModLogger.info("{} 发现设备: {} ({})", LOG_TAG, device.getName(), address);
             try {
                 callback.onDeviceFound(device);
             } catch (Throwable t) {
