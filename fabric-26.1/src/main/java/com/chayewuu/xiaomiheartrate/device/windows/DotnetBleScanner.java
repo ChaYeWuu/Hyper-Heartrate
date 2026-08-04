@@ -223,6 +223,11 @@ public class DotnetBleScanner implements BleScanner {
             ModLogger.error("{} ble-tool 错误: {}", LOG_TAG, lastError);
             return;
         }
+        // UPDATE_NAME 行：GAP 名称查询结果，更新已有设备名称并重新上报
+        if (line.startsWith("UPDATE_NAME|")) {
+            handleNameUpdate(line.substring("UPDATE_NAME|".length()));
+            return;
+        }
         // MAC 格式校验：必须以两位十六进制开头，含冒号或直接12位hex
         String trimmed = line.trim();
         if (trimmed.length() < 12) {
@@ -230,7 +235,7 @@ public class DotnetBleScanner implements BleScanner {
             return;
         }
 
-        String[] parts = trimmed.split("\\|", 3);
+        String[] parts = trimmed.split("\\|", 4);
         if (parts.length < 1) {
             return;
         }
@@ -252,6 +257,9 @@ public class DotnetBleScanner implements BleScanner {
             }
         }
 
+        // 第4字段为逗号分隔的短 UUID 列表（如 "180d,180a"），用于识别心率设备
+        String serviceUuids = parts.length > 3 ? parts[3].trim() : "";
+
         if (!reportedMacs.add(mac)) {
             return;
         }
@@ -259,8 +267,8 @@ public class DotnetBleScanner implements BleScanner {
         DeviceType type = DeviceFilter.getDeviceType(name);
         BleDevice device = new WindowsBleDevice(name, mac, rssi, null, type);
 
-        ModLogger.info("{} 发现设备: {} ({}) RSSI={} type={}",
-                LOG_TAG, name.isEmpty() ? "Unknown" : name, mac, rssi, type);
+        ModLogger.info("{} 发现设备: {} ({}) RSSI={} type={} uuids={}",
+                LOG_TAG, name.isEmpty() ? "Unknown" : name, mac, rssi, type, serviceUuids);
 
         ScanCallback cb = currentCallback.get();
         if (cb != null && scanning.get()) {
@@ -268,6 +276,36 @@ public class DotnetBleScanner implements BleScanner {
                 cb.onDeviceFound(device);
             } catch (Throwable t) {
                 ModLogger.error("{} 扫描回调异常", t, LOG_TAG);
+            }
+        }
+    }
+
+    /**
+     * 处理 ble-tool 的 GAP 名称查询结果。
+     * <p>格式：{@code MAC|Name}，例如 {@code AA:BB:CC:DD:EE:FF|xinlvguangbo-Iphone}</p>
+     * <p>移除旧设备后重新上报（此时名称正确，DeviceType 可能从 UNKNOWN 变为可识别类型）。</p>
+     */
+    private void handleNameUpdate(String payload) {
+        String[] parts = payload.split("\\|", 2);
+        if (parts.length < 2) return;
+        String mac = parts[0].trim();
+        String name = parts[1].trim();
+        if (mac.isEmpty() || name.isEmpty()) return;
+
+        // 允许该 MAC 重新上报（移除去重记录）
+        reportedMacs.remove(mac);
+
+        DeviceType type = DeviceFilter.getDeviceType(name);
+        BleDevice device = new WindowsBleDevice(name, mac, 0, null, type);
+
+        ModLogger.info("{} 名称已更新: {} → {} type={}", LOG_TAG, mac, name, type);
+
+        ScanCallback cb = currentCallback.get();
+        if (cb != null && scanning.get()) {
+            try {
+                cb.onDeviceFound(device);
+            } catch (Throwable t) {
+                ModLogger.error("{} 名称更新回调异常", t, LOG_TAG);
             }
         }
     }

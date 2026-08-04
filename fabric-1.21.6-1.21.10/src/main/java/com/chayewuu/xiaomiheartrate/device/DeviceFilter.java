@@ -46,6 +46,12 @@ public final class DeviceFilter {
             "redmi"
     };
 
+    /** iPhone 心率广播 App 名称前缀（小写） */
+    private static final String[] IPHONE_HEART_RATE_PREFIXES = {
+            "xinlvguangbo",
+            "xinlvguangbo-iphone"
+    };
+
     /**
      * 通用小米设备名称前缀（小写）。
      * <p>部分设备（如 Redmi Watch 6）在 BLE 广播时使用短名称 "Xiaomi 27DB"，
@@ -94,6 +100,13 @@ public final class DeviceFilter {
             return DeviceType.UNKNOWN;
         }
         String lower = name.toLowerCase(Locale.ROOT);
+
+        // 优先匹配 iPhone 心率广播 App
+        for (String prefix : IPHONE_HEART_RATE_PREFIXES) {
+            if (lower.startsWith(prefix) || lower.contains(prefix)) {
+                return DeviceType.IPHONE_HEART_RATE_APP;
+            }
+        }
 
         // 优先匹配更具体的前缀（"mi smart band" 优先于 "mi band"）
         for (String prefix : XIAOMI_BAND_PREFIXES) {

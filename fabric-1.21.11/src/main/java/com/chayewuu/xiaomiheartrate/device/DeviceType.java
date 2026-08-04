@@ -13,6 +13,8 @@ public enum DeviceType {
     XIAOMI_WATCH,
     /** Redmi Watch 系列 */
     REDMI_WATCH,
+    /** iPhone 心率广播 App（如 xinlvguangbo-iphone），通过标准 GATT 心率服务广播 */
+    IPHONE_HEART_RATE_APP,
     /** 标准 GATT 心率服务（UUID 0x180D）设备 */
     STANDARD_GATT,
     /** 未知设备类型 */

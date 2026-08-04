@@ -175,6 +175,7 @@ public class DeviceSelectionScreen extends BaseModScreen {
             case XIAOMI_BAND -> "[小米手环]";
             case XIAOMI_WATCH -> "[小米手表]";
             case REDMI_WATCH -> "[红米手表]";
+            case IPHONE_HEART_RATE_APP -> "[Apple心率广播]";
             case STANDARD_GATT -> "[标准GATT]";
             default -> "[未知]";
         };
@@ -327,6 +328,8 @@ public class DeviceSelectionScreen extends BaseModScreen {
             // 提示开启心率广播
             context.drawCenteredTextWithShadow(this.textRenderer, "提示: 小米手环需在设置→心率广播中开启", centerX,
                     panelY + 40 + MAX_DISPLAY_DEVICES * (DEVICE_BTN_HEIGHT + 2) / 2 + 12, 0xFFAA8800);
+            context.drawCenteredTextWithShadow(this.textRenderer, "Apple Watch用户请下载心率广播App，并在手表中开启广播", centerX,
+                    panelY + 40 + MAX_DISPLAY_DEVICES * (DEVICE_BTN_HEIGHT + 2) / 2 + 22, 0xFFAA8800);
 
             // 显示扫描错误信息（如 dotnet 未安装）
             String error = DeviceManagerHolder.get().getScanError();
