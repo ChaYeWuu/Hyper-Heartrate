@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jar-${{ matrix.module.dir }}
-          path: ${{ matrix.module.dir }}/build/libs/*.jar
+          path: ${{ matrix.module.dir }}/build/libs/hyper-heartrate-*.jar
           retention-days: 1
 
   publish:
@@ -105,4 +105,4 @@ jobs:
             1.21.11
             26.1
             26.2
-          files: hyper-heartrate-1.3.0_fabric-26.2.jar,hyper-heartrate-1.3.0_fabric-26.1.jar,hyper-heartrate-1.3.0_fabric-1.21.11.jar,hyper-heartrate-1.3.0_fabric-1.21.6-1.21.10.jar,hyper-heartrate-1.3.0_fabric-1.21.4-1.21.5.jar,hyper-heartrate-1.3.0_fabric-1.21.1-1.21.3.jar
+          files: hyper-heartrate-*.jar
