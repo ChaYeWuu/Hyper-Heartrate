@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jar-${{ matrix.module.dir }}
-          path: ${{ matrix.module.dir }}/build/libs/*.jar
+          path: build/libs/*.jar
           retention-days: 1
 
   publish:
@@ -81,7 +81,14 @@ jobs:
           merge-multiple: true
 
       - name: 列出要上传的文件
-        run: ls -la *.jar
+        run: ls -la *.jar | grep -v sources
+
+      - name: 设置上传文件列表
+        id: jars
+        run: |
+          files=$(ls *.jar | grep -v sources | tr '\n' ',')
+          files=${files%,}
+          echo "files=$files" >> $GITHUB_OUTPUT
 
       - name: 发布到 Modrinth
         uses: cloudnode-pro/modrinth-publish@v2
@@ -105,5 +112,4 @@ jobs:
             1.21.11
             26.1
             26.2
-          version-type: release
-          files: "*.jar"
+          files: ${{ steps.jars.outputs.files }}
