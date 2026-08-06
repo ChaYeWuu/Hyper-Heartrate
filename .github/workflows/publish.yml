@@ -80,8 +80,20 @@ jobs:
           pattern: jar-*
           merge-multiple: true
 
+      - name: 只保留非 sources 的 jar
+        run: |
+          mkdir -p jars
+          for f in hyper-heartrate-*.jar; do
+            case "$f" in
+              *-sources.jar) ;;
+              *) cp "$f" jars/ ;;
+            esac
+          done
+          rm -f hyper-heartrate-*.jar
+          mv jars/* . && rmdir jars
+
       - name: 列出要上传的文件
-        run: ls -la hyper-heartrate-*.jar | grep -v sources
+        run: ls -la hyper-heartrate-*.jar
 
       - name: 发布到 Modrinth
         uses: cloudnode-pro/modrinth-publish@v2
