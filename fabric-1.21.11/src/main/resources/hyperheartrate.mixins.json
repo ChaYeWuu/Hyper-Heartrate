@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.chayewuu.hyperheartrate.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "PlayerTabOverlayMixin",
+    "EntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

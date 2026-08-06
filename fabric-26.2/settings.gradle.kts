@@ -6,4 +6,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "xiaomi-heartrate"
+rootProject.name = "hyper-heartrate"

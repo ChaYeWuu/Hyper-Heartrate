@@ -2,11 +2,11 @@ plugins {
     id("net.fabricmc.fabric-loom") version "1.17.17"
 }
 
-group = "com.chayewuu.xiaomiheartrate"
-version = "1.2.0_fabric-26.2"
+group = "com.chayewuu.hyperheartrate"
+version = "1.3.0_fabric-26.2"
 
 base {
-    archivesName.set("xiaomi-heartrate")
+    archivesName.set("hyper-heartrate")
 }
 
 repositories {

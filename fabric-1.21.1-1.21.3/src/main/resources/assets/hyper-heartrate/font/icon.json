@@ -1,0 +1,13 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "hyper-heartrate:font/heart.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        "\uE001"
+      ]
+    }
+  ]
+}

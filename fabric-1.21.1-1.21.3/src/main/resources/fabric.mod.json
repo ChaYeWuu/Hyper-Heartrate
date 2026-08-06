@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "hyper-heartrate",
+  "version": "${version}",
+  "name": "Hyper Heartrate",
+  "description": "读取心率广播设备实时心率并显示到 Minecraft 游戏内，支持华为/苹果/三星/佳明等全世界 GATT 心率设备",
+  "authors": [
+    "茶叶Wuu"
+  ],
+  "contact": {
+    "homepage": "https://github.com/ChaYeWuu/Hyper-Heartrate",
+    "sources": "https://github.com/ChaYeWuu/Hyper-Heartrate"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "com.chayewuu.hyperheartrate.HeartRateMod"
+    ],
+    "client": [
+      "com.chayewuu.hyperheartrate.HeartRateModClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": ">=1.21.1 <=1.21.3",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "mixins": [
+    "hyperheartrate.mixins.json"
+  ]
+}

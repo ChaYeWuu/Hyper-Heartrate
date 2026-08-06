@@ -3,11 +3,11 @@ plugins {
     id("net.fabricmc.fabric-loom-remap") version "1.14.10"
 }
 
-group = "com.chayewuu.xiaomiheartrate"
-version = "1.2.0_fabric-1.21.11"
+group = "com.chayewuu.hyperheartrate"
+version = "1.3.0_fabric-1.21.11"
 
 base {
-    archivesName.set("xiaomi-heartrate")
+    archivesName.set("hyper-heartrate")
 }
 
 repositories {

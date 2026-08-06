@@ -1,18 +1,14 @@
 # ===== IDE =====
-# IntelliJ IDEA
 .idea/
 *.iml
 *.iws
 *.ipr
 out/
-# Eclipse
 .classpath
 .project
 .settings/
 bin/
-# VS Code
 .vscode/
-.trae/
 
 # ===== OS =====
 .DS_Store
@@ -35,7 +31,7 @@ fabric-*/run/
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
 
-# ===== .NET ble-tool 构建产物（仅保留源码 Program.cs / BleTool.csproj） =====
+# ===== .NET ble-tool 构建产物 =====
 tools/ble-tool/obj/
 tools/ble-tool/publish/
 tools/ble-tool/fdd-publish/
@@ -47,3 +43,12 @@ tools/ble-tool/**/*.cache
 # ===== 临时调试输出 =====
 conn-*.txt
 restore-*.txt
+
+# ===== Reasonix / AI 辅助 =====
+.reasonix/
+
+# ===== 系统临时文件 =====
+*.tmp
+*.swp
+*.bak
+~$*

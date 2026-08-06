@@ -1,26 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "xiaomi-heartrate",
+  "id": "hyper-heartrate",
   "version": "${version}",
-  "name": "Xiaomi Heartrate",
-  "description": "读取小米手环/手表/Redmi Watch 实时心率并显示到 Minecraft 游戏内",
+  "name": "Hyper Heartrate",
+  "description": "读取心率广播设备实时心率并显示到 Minecraft 游戏内，支持华为/苹果/三星/佳明等全世界 GATT 心率设备",
   "authors": [
     "茶叶Wuu"
   ],
   "contact": {
-    "homepage": "https://github.com/xiaomi-heartrate",
-    "sources": "https://github.com/xiaomi-heartrate"
+    "homepage": "https://github.com/ChaYeWuu/Hyper-Heartrate",
+    "sources": "https://github.com/ChaYeWuu/Hyper-Heartrate"
   },
   "license": "MIT",
-  "environment": "client",
+  "icon": "icon.png",
+  "environment": "*",
   "entrypoints": {
     "main": [
-      "com.chayewuu.xiaomiheartrate.HeartRateMod"
+      "com.chayewuu.hyperheartrate.HeartRateMod"
     ],
     "client": [
-      "com.chayewuu.xiaomiheartrate.HeartRateModClient"
+      "com.chayewuu.hyperheartrate.HeartRateModClient"
     ]
   },
+  "mixins": [
+    "hyperheartrate.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.0",
     "minecraft": "~26.1.2",

@@ -7,7 +7,7 @@ using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 
-namespace XiaomiHeartrate.BleTool;
+namespace HyperHeartrate.BleTool;
 
 /// <summary>
 /// BLE 工具控制台程序。
