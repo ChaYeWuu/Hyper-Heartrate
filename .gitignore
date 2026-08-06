@@ -29,6 +29,7 @@ fabric-*/run/
 
 # ===== 构建产物 =====
 *.jar
+!**/gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.jar
 
 # ===== .NET ble-tool 构建产物 =====
