@@ -95,7 +95,69 @@ jobs:
       - name: 列出要上传的文件
         run: ls -la hyper-heartrate-*.jar
 
-      - name: 发布到 Modrinth
+      - name: 发布到 Modrinth（26.2）
+        uses: cloudnode-pro/modrinth-publish@v2
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project: ${{ secrets.MODRINTH_PROJECT_ID }}
+          version: ${{ github.event.release.tag_name || inputs.tag }}
+          changelog: ${{ github.event.release.body || inputs.changelog }}
+          loaders: fabric
+          game-versions: 26.2
+          files: hyper-heartrate-1.3.0_fabric-26.2.jar
+
+      - name: 发布到 Modrinth（26.1）
+        uses: cloudnode-pro/modrinth-publish@v2
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project: ${{ secrets.MODRINTH_PROJECT_ID }}
+          version: ${{ github.event.release.tag_name || inputs.tag }}
+          changelog: ${{ github.event.release.body || inputs.changelog }}
+          loaders: fabric
+          game-versions: 26.1
+          files: hyper-heartrate-1.3.0_fabric-26.1.jar
+
+      - name: 发布到 Modrinth（1.21.11）
+        uses: cloudnode-pro/modrinth-publish@v2
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project: ${{ secrets.MODRINTH_PROJECT_ID }}
+          version: ${{ github.event.release.tag_name || inputs.tag }}
+          changelog: ${{ github.event.release.body || inputs.changelog }}
+          loaders: fabric
+          game-versions: 1.21.11
+          files: hyper-heartrate-1.3.0_fabric-1.21.11.jar
+
+      - name: 发布到 Modrinth（1.21.6-1.21.10）
+        uses: cloudnode-pro/modrinth-publish@v2
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project: ${{ secrets.MODRINTH_PROJECT_ID }}
+          version: ${{ github.event.release.tag_name || inputs.tag }}
+          changelog: ${{ github.event.release.body || inputs.changelog }}
+          loaders: fabric
+          game-versions: |
+            1.21.6
+            1.21.7
+            1.21.8
+            1.21.9
+            1.21.10
+          files: hyper-heartrate-1.3.0_fabric-1.21.6-1.21.10.jar
+
+      - name: 发布到 Modrinth（1.21.4-1.21.5）
+        uses: cloudnode-pro/modrinth-publish@v2
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project: ${{ secrets.MODRINTH_PROJECT_ID }}
+          version: ${{ github.event.release.tag_name || inputs.tag }}
+          changelog: ${{ github.event.release.body || inputs.changelog }}
+          loaders: fabric
+          game-versions: |
+            1.21.4
+            1.21.5
+          files: hyper-heartrate-1.3.0_fabric-1.21.4-1.21.5.jar
+
+      - name: 发布到 Modrinth（1.21.1-1.21.3）
         uses: cloudnode-pro/modrinth-publish@v2
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
@@ -107,14 +169,4 @@ jobs:
             1.21.1
             1.21.2
             1.21.3
-            1.21.4
-            1.21.5
-            1.21.6
-            1.21.7
-            1.21.8
-            1.21.9
-            1.21.10
-            1.21.11
-            26.1
-            26.2
-          files: hyper-heartrate-*.jar
+          files: hyper-heartrate-1.3.0_fabric-1.21.1-1.21.3.jar
