@@ -81,14 +81,7 @@ jobs:
           merge-multiple: true
 
       - name: 列出要上传的文件
-        run: ls -la *.jar | grep -v sources
-
-      - name: 设置上传文件列表
-        id: jars
-        run: |
-          files=$(ls *.jar | grep -v sources | tr '\n' ',')
-          files=${files%,}
-          echo "files=$files" >> $GITHUB_OUTPUT
+        run: ls -la hyper-heartrate-*.jar | grep -v sources
 
       - name: 发布到 Modrinth
         uses: cloudnode-pro/modrinth-publish@v2
@@ -112,4 +105,4 @@ jobs:
             1.21.11
             26.1
             26.2
-          files: ${{ steps.jars.outputs.files }}
+          files: hyper-heartrate-1.3.0_fabric-26.2.jar,hyper-heartrate-1.3.0_fabric-26.1.jar,hyper-heartrate-1.3.0_fabric-1.21.11.jar,hyper-heartrate-1.3.0_fabric-1.21.6-1.21.10.jar,hyper-heartrate-1.3.0_fabric-1.21.4-1.21.5.jar,hyper-heartrate-1.3.0_fabric-1.21.1-1.21.3.jar
