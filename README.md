@@ -26,6 +26,7 @@
 
 | 目录 | Minecraft 版本 | Fabric Loader | Fabric API | Java | Loom |
 |------|---------------|---------------|-----------|------|------|
+| `fabric-26.3/` | 26.3.x | 0.19.5+ | 0.161.0+ | 25 | 1.17 (非混淆) |
 | `fabric-26.2/` | 26.2.x | 0.19.3+ | 0.152.0+ | 25 | 1.17 (非混淆) |
 | `fabric-26.1/` | 26.1.x | 0.19.2+ | 0.150.0+ | 25 | 1.15 (非混淆) |
 | `fabric-1.21.11/` | 1.21.11+ | 0.18.5+ | 0.141.4+ | 21 | 1.14 (Yarn remap) |
@@ -41,6 +42,7 @@
 - **1.21.4–1.21.5**：引入 `EntityRenderState`，NameTag 渲染改为 `renderLabelIfPresent(S state, ...)`；`Screen.renderBackground` 会应用原版模糊，已通过 `BaseModScreen` 重写为空操作规避
 - **1.21.6–1.21.10**：`KeyBinding` 构造使用 String category（`KeyBinding.Category` record 在 1.21.11 才引入）；鼠标事件使用旧签名 `mouseClicked(double, double, int)`
 - **1.21.11+**：`KeyBinding` 构造使用 `KeyBinding.Category` record；鼠标事件使用新签名 `mouseClicked(Click, boolean)`；NameTag 渲染为队列提交式（`OrderedRenderCommandQueue.submitLabel`）
+- **26.3**：`InputConstants.Type.KEYSYM` 改名为 `KEYBOARD`，`GLFW.GLFW_KEY_*` 常量收敛到 `InputConstants.KEY_*`（26.2 及以下写法在 26.3 无法编译）
 
 ## 安装
 
@@ -111,6 +113,7 @@
 
 ```
 hyper-heartrate/
+├── fabric-26.3/                # Minecraft 26.3.x（Mojang 非混淆映射）
 ├── fabric-26.2/                # Minecraft 26.2.x（Mojang 非混淆映射）
 ├── fabric-26.1/                # Minecraft 26.1.x（Mojang 非混淆映射）
 ├── fabric-1.21.11/             # Minecraft 1.21.11+（Yarn 映射，队列提交式渲染）
@@ -133,6 +136,9 @@ hyper-heartrate/
 根据目标 Minecraft 版本进入对应目录构建：
 
 ```bash
+# Minecraft 26.3.x
+cd fabric-26.3 && ./gradlew clean build
+
 # Minecraft 26.2.x
 cd fabric-26.2 && ./gradlew clean build
 
@@ -158,6 +164,7 @@ cd fabric-1.21.1-1.21.3 && ./gradlew clean build
 
 | 目录 | 产物名 |
 |------|--------|
+| `fabric-26.3/` | `hyper-heartrate-1.3.0_fabric-26.3.jar` |
 | `fabric-26.2/` | `hyper-heartrate-1.3.0_fabric-26.2.jar` |
 | `fabric-26.1/` | `hyper-heartrate-1.3.0_fabric-26.1.jar` |
 | `fabric-1.21.11/` | `hyper-heartrate-1.3.0_fabric-1.21.11.jar` |
@@ -168,6 +175,7 @@ cd fabric-1.21.1-1.21.3 && ./gradlew clean build
 ## 更新日志
 
 ### v1.3.0
+- 新增 适配 Minecraft 26.3，独立分支
 - 新增 支持联机功能，多人同步显示心率
 - 新增 HUD 总开关，一键控制心率显示
 - 新增 HUD 背景板，支持透明度调节

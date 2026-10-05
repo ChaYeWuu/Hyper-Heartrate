@@ -1,0 +1,23 @@
+# Gradle
+.gradle/
+build/
+
+# Fabric Loom 运行目录
+run/
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# 操作系统
+.DS_Store
+Thumbs.db
